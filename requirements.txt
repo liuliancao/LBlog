@@ -1,0 +1,10 @@
+Django==1.9.7
+django-hitcount==1.2.2
+django-pagination==1.0.7
+django-uuslug==1.1.7
+gunicorn==19.6.0
+Pillow==3.2.0
+PyMySQL==0.6.7
+Markdown==2.6.5 
+pytz==2016.4
+

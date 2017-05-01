@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block body_block %}
+    <div class="post">
+        <div class="post-hd">
+            <h1 class="title">关于</h1>
+        </div>
+        <div class="post-bd">
+            <!-- 	<p><a href=""><img src="" alt=""></a></p> -->
+            <div class="about_content">
+                <p>&nbsp;&nbsp;小博主江苏人，93年，男，白羊座。爱好练字，听歌，看书，拍照，工作是某某公司的运维工程师。博主不会扯慌，不会撒娇卖萌，不会精打细算，但乐于分享，本机OpenSuSe13.2+Win10。</p>
+                <p>&nbsp;&nbsp;大家都是从最基础的过来的，就我个人的学习经历，除了网上常说的多实践，大家也可以多买点书。从书中可以快速掌握一门技术的核心基础，然后扩展就会很容易。</p>
+                <p>&nbsp;&nbsp;欢迎交流：liuliancao@gmail.com或luqixue@qq.com，有什么问题和建议也欢迎在楼下指出。</p>
+                <img src="{% static 'images/aboutme.jpg' %}" alt="" width="730" height="430">
+                <b>&nbsp;拍于苗寨 ISO 100 29.0mm 7/10EV F5.0 1/500</b>
+            </div>
+
+            <p><a href="" class="more-link"></a></p>
+        </div>
+        <div class="post-ft">
+            <i class="icon-date"></i>
+            <span class="date">2016年6月</span>
+        </div>
+		<!-- 多说评论框 start -->
+		<div class="ds-thread" data-thread-key="about_text" data-title="about" data-url="http://blog.liuliancao.com/about/"></div>
+<!-- 多说评论框 end -->
+<!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+<script type="text/javascript">
+var duoshuoQuery = {short_name:"liuliancao"};
+	(function() {
+		var ds = document.createElement('script');
+		ds.type = 'text/javascript';ds.async = true;
+		ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';
+		ds.charset = 'UTF-8';
+		(document.getElementsByTagName('head')[0] 
+		 || document.getElementsByTagName('body')[0]).appendChild(ds);
+	})();
+	</script>
+<!-- 多说公共JS代码 end -->
+    </div>
+{% endblock %}

@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+{#<html lang="zh-cn">#}
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-COMPATIBLE" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="liuliancao's homepage">
+    <meta name="author" content="liuliancao">
+    {% load staticfiles %}
+    <link rel="icon" href="{% static 'img/favicon.ico' %}">
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/lblog.css' %}" rel="stylesheet">
+    <!--导入JQ和bootstraps的js脚本-->
+    <!-- Bootstrap core JavaScript
+    ==================================== -->
+    <!-- Placed at the end of the document so the pages load faster -->
+    <script src="{% static 'js/jquery-1.12.1.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script type="text/javascript" src="{% static 'ueditor/third-party/SyntaxHighlighter/shCore.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'ueditor/third-party/SyntaxHighlighter/shCoreDefault.css' %}">
+    <script type="text/javascript">
+        SyntaxHighlighter.all();
+        $(function(){
+                //当滚动条的位置处于距顶部100像素以下时，跳转链接出现，否则消失
+                $(function () {
+                    $(window).scroll(function(){
+                        if ($(window).scrollTop()>100){
+                            $("#back-to-top").fadeIn(1500);
+                        }
+                        else
+                        {
+                            $("#back-to-top").fadeOut(1500);
+                        }
+                    });
+
+                    //当点击跳转链接后，回到页面顶部位置
+
+                    $("#back-to-top").click(function(){
+                        $('body,html').animate({scrollTop:0},1000);
+                        return false;
+                    });
+                });
+            });
+    </script>
+	<script>
+		var _hmt = _hmt || [];
+		(function() {
+  			var hm = document.createElement("script");
+  			hm.src = "//hm.baidu.com/hm.js?1161614d36c8a808628d5dea6e27a45f";
+  			var s = document.getElementsByTagName("script")[1]; 
+  			s.parentNode.insertBefore(hm, s);
+		})();
+	</script>
+
+     <!--多说js加载开始，一个页面只需要加载一次 -->
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"liuliancao"};
+{#        (function() {#}
+{#            var ds = document.createElement('script');#}
+{#            ds.type = 'text/javascript';ds.async = true;#}
+{#            ds.src = '{% static 'js/embed.js' %}';#}
+{#            ds.charset = 'UTF-8';#}
+{#            (document.getElementsByTagName('head')[0] || document.getElementsByTagName('body')[0]).appendChild(ds);#}
+{#        })();#}
+    </script>
+    <script src="{% static 'js/embed.js' %}"></script>
+    <!--多说js加载结束，一个页面只需要加载一次 -->
+    <title>{% block title %}liuliancao的小站{% endblock %}</title>
+</head>
+<body>
+    <!--回到顶部锚点-->
+    <a name="top"></a>
+    <!--回到顶部锚点结束-->
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-10">
+                <div id="category" class="noselect">
+                     <div id="category-title">
+                        <ul>
+                            <li>分类：</li>
+                            <li class="cat-item"><a href="{% url 'blog:index' %}">主页</a></li>
+                            {% for category in category_list %}
+                                <li class="cat-item">
+                                    <a href="{% url 'blog:category' category.slug %}">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            {% endfor %}
+                                <li class="cat-item">
+                                    <a href="{% url 'blog:about' %}">关于</a>
+                                </li>
+                        </ul>
+                     </div>
+                 </div>
+                <div id="bd" class="wrp clear-fix">
+                    <div id="main">
+                        {% block body_block %}{% endblock %}
+
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-2">
+                <div class="right_title">
+                    <span title="全站搜索" class="title">全站搜索</span>
+                </div>
+                <div class="search">
+                    <input id="search_input" type="search" placeholder="Search"
+                           onkeypress="if(event.keyCode==13){search_btn.click();return false;}">
+                    <button class="btn-info" type="submit" name="search_btn" id="search_btn">搜索</button>
+                </div>
+                <div class="right_title">
+                    <span title="标签" class="title">标签</span>
+                </div>
+                <div class="list-group">
+                    {% for tag in tag_list %}
+                        <a href="{% url 'blog:tag' tag.pk %}" class="list-group-item"><span
+                                class="badge"></span>{{ tag.name }}</a>
+                    {% endfor %}
+                </div>
+                <!-- archive -->
+                <div class="right_title">
+                    <span title="文章归档" class="title">文章归档</span>
+                </div>
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+                    {% if date_archive %}
+                        {% for year,months in date_archive %}
+                            <div class="panel panel-default">
+                                <div class="panel-heading" role="tab" id="heading{{ forloop.counter }}">
+                                    <h4 class="panel-title">
+                                        <a role="button" data-toggle="collapse" data-parent="#accordion"
+                                           href="#collapse{{ forloop.counter }}"
+                                           aria-expanded="true" aria-controls="collapse{{ forloop.counter }}">
+                                            {{ year }} 年
+                                        </a>
+                                    </h4>
+                                </div>
+                                <div id="collapse{{ forloop.counter }}" class="panel-collapse collapse in" role="tabpanel"
+                                     aria-labelledby="heading{{ forloop.counter }}">
+                                    <div class="panel-body">
+                                        {% for month in months %}
+                                            <a href="{% url 'blog:archive' year month %}"><p>{{ month }} 月</p></a>
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        {% endfor %}
+                    {% else %}
+                        <p>暂时没有内容</p>
+                    {% endif %}
+                </div>
+                <!-- archive end -->
+                <div class="right_title">
+                    <span title="友链" class="title">友链</span>
+                </div>
+                <a href="http://weibo.com/liuliancao" target="_blank">
+                    <img src="{% static 'images/head_image.jpg' %}" width="30" height="30" id="weibo_headimg"/>&nbsp;
+                    欢迎互友
+                </a>
+                <div class="right_title">
+                        <span title="最近访客" class="title">最近访客</span>
+                </div>
+                <div class="ds-recent-visitors"></div>
+        </div>
+    </div>
+
+    <!--回到顶部部分-->
+    <p id="back-to-top"><a href="#top"><span></span>返回顶部</a></p>
+    <!--回到顶部结束-->
+    <script type="application/javascript">
+        {# 搜索部分 #}
+        var search_button = document.getElementById('search_btn');
+        search_button.onclick = function(){
+            var search_key = document.getElementById('search_input').value;
+            if(search_key == ''){
+                alert('搜索框的内容不能为空！');
+            }else{
+                window.location.href="/search/" + search_key;
+                return false;
+            }
+        };
+    </script>
+</body>
+</html>
