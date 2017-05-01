@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block body_block  %}
+    <div>
+        {# 文章部分 #}
+        {% load staticfiles %}
+        {% load paginate_tags %}
+        {% paginate article_list 5 %}
+        {% load hitcount_tags %}
+        {% if article_list %}
+            {% for article in article_list %}
+            {% get_hit_count_js_variables for article as hitcount %}
+            {% get_hit_count for article as total_hits %}
+            <div class="post">
+                <div class="post-hd">
+                    <h1 class="title">
+                        <a href="{% url 'blog:article' article.slug %}">{{ article.title }}</a>
+                    </h1>
+                </div>
+                <div class="post-bd">
+                    <p>{{ article.abstract }}</p>
+                    <p>{{ article.content|truncatechars_html:200|safe }}</p>
+                    <p><a href="" class="more-link"></a></p>
+                </div>
+                <div class="post-ft">
+                    <a href="{% url 'blog:article' article.slug %}" class="more">阅读全文>></a>
+                    <i class="icon-date"></i>
+                    <span class="date">{{ article.write_time|date:"Y年n月d日" }}</span>
+                    浏览 {{ total_hits }}
+                </div>
+            </div>
+            {% endfor %}
+            {% include 'blog/pagination.html' %}
+        {% else %}
+            <div class="post">
+                <div class="post-bd"><p>抱歉，暂时没有相关内容。</p></div>
+            </div>
+        {% endif %}
+    </div>
+    {% if footer %}
+        <footer class="footer">
+            <div class="container" id="footer_div">
+                <p class="footer_text">©2016&nbsp;liuliancao&nbsp;黔&nbsp;ICP&nbsp;备&nbsp;16000441&nbsp;号</p>
+            </div>
+        </footer>
+    {% endif %}
+{% endblock %}

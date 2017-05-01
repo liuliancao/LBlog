@@ -1,0 +1,74 @@
+{% extends 'base.html' %}
+{% block body_block %}
+    {% load staticfiles %}
+    {% load hitcount_tags %}
+    {% get_hit_count_js_variables for article as hitcount %}
+    {% get_hit_count for article as total_hits %}
+    <div id="bd" class="wrp clear-fix">
+        <div id="main">
+            <div id="detail-title">
+                <ul id="single-nav">
+                    <li><a href="{% url 'blog:index' %}">首页</a></li>
+                    <li>&gt;</li>
+                    <li>
+                        <ul class="post-categories">
+                            <li><a href="{{ article.category.get_absolute_url }}" title=""
+                                   rel="category">{{ article.category.name }}</a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>&gt;</li>
+                    <li class="title-active"><a href="{{ article.get_absolute_url }}"
+                                                rel="bookmark">{{ article.title }}</a>
+                    </li>
+                </ul>
+            </div>
+            <div id="post-1951"
+                 class="post-1951 post type-post status-publish format-standard hentry category-meida-report">
+                <div class="post-hd">
+                    <h1 class="title">{{ article.title }}</h1>
+                </div>
+                <div class="date-read">
+                    <i class="icon-date"></i><span class="date">{{ article.write_time|date:"Y年n月d日" }}</span>
+                    浏览：{{ total_hits }}
+                </div>
+                <div class="post-bd">
+                    {{ article.content |safe }}
+                </div>
+
+            </div>
+
+
+
+        </div>
+    </div>
+    {# 多说部分引入 #}
+    <!-- 多说评论框 start -->
+	<div class="ds-thread" data-thread-key="{{ article.pk }}" data-title="{{ article.title }}" data-url="http://blog.liuliancao.com/{{ article.get_absolute_url }}"></div>
+    <!-- 多说评论框 end -->
+    <!-- 多说公共JS代码 start (一个网页只需插入一次) -->
+    <script type="text/javascript">
+        var duoshuoQuery = {short_name:"liuliancao"};
+            (function() {
+                var ds = document.createElement('script');
+                ds.type = 'text/javascript';ds.async = true;
+{#                ds.src = (document.location.protocol == 'https:' ? 'https:' : 'http:') + '//static.duoshuo.com/embed.js';#}
+                ds.src = "127.0.0.1:8000/static/js/embed.js";
+                ds.charset = 'UTF-8';
+                (document.getElementsByTagName('head')[0]
+                 || document.getElementsByTagName('body')[0]).appendChild(ds);
+            })();
+    </script>
+    <!-- 多说公共JS代码 end -->
+
+    {# 多说部分结束 #}
+    <div class="ds-share flat" data-thread-key="{{ article.pk }}" data-title="{{ article.title }}" data-images="http://blog.liuliancao.com/media/images/the-default-wallpapers-of-ubuntu-15-10-wily-werewolf-gallery-493511-4-20160619200619279758.jpg" data-content="{{ article.content|truncatechars_html:50 }}" data-url="http://blog.liuliancao.com/{{ article.get_absolute_url }}">
+    <div class="ds-share-aside-left">
+      <div class="ds-share-aside-inner">
+      </div>
+      <div class="ds-share-aside-toggle">分享到</div>
+    </div>
+</div>
+    <div id="previous-next-nav">
+    </div>
+{% endblock %}
